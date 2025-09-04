@@ -23,7 +23,7 @@ Para más ejemplos sobre el funcionamiento y explicación de la API, se puede re
 ## Instalación/Prueba
 Para la instalación o prueba de este proyecto, se debe crear un servidor en PostgreSQL (pgAdmin4), con el nombre *"API_Parcial"*, y dentro del servidor crear una base de datos llamada *"gestion_biblioteca"*.
 
-![Video Explicación - Creación de la base de datos en Postgre](./img/TutorialDB.mp4)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/QbZ00Euk4Ts?si=3Ii0FCAO9TKQooJS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Una vez se ha hecho esto se pueden ejecutar los siguientes comandos en una terminal del IDE de preferencia, dentro de cualquier carpeta:
 ```
@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 Una vez se ha clonado el repositorio y se han instalado los requerimientos, se debe abrir el archivo *API_Parcial/api_project/api_project/settings.py*. En este archivo, se debe realizar una modificación en la línea 83, ya que en dentro de las comilllas que estan despues de los : se debe ingresar la contraseña que se estableció para PostgreSQL y el servidor.
 
-![Línea en Setting.py](lineaSetting.png)
+![Línea en Setting.py](./img/lineaSetting.png)
 
 Una vez se haya modificado la contraseña y se haya guardado el cambio, se puede ejecutar en la terminal los siguietnes comandos:
 
