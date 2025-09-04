@@ -3,313 +3,313 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from datetime import datetime
-from .models import Persona, Tarea
-from .serializers import PersonaSerializer, TareaSerializer
+from .models import Autor, Editorial, Libro, Miembro, Prestamo
+from .serializers import AutorSerializer, EditorialSerializer, LibroSerializer, MiembroSerializer, PrestamoSerializer
 
 
-# ====================== VISTAS DE PERSONA ======================
+# ====================== VISTAS DE LIBROS ======================
 
-# Listar personas
-class PersonaList(generics.ListCreateAPIView):
-    queryset = Persona.objects.all()
-    serializer_class = PersonaSerializer
+# Listar autores
+class AutorList(generics.ListCreateAPIView):
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
 
     def get(self, request):
-        personas = Persona.objects.all()
-        serializer = PersonaSerializer(personas, many=True)
-        if not personas:
-            raise NotFound('No se encontraron personas.')
+        autores = Autor.objects.all()
+        serializer = AutorSerializer(autores, many=True)
+        if not autores:
+            raise NotFound('No se encontraron autores.')
         return Response(
             {
                 'success': True,
-                'detail': 'Listado de personas.',
+                'detail': 'Listado de autores.',
                 'data': serializer.data
             },
             status=status.HTTP_200_OK
         )
 
-
-# Crear personas
-class CrearPersona(generics.CreateAPIView):
-    queryset = Persona.objects.all()
-    serializer_class = PersonaSerializer
+# Crear autores
+class CrearAutor(generics.CreateAPIView):
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
 
     def post(self, request):
-        serializer = PersonaSerializer(data=request.data)
+        serializer = AutorSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(
             {
                 'success': True,
-                'detail': 'Persona creada correctamente.',
+                'detail': 'Autor creado correctamente.',
                 'data': serializer.data
             },
             status=status.HTTP_201_CREATED
         )
 
-# Actualizar personas
-class ActualizarPersona(generics.UpdateAPIView):
-    queryset = Persona.objects.all()
-    serializer_class = PersonaSerializer
+# Actualizar autores
+class ActualizarAutor(generics.UpdateAPIView):
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
 
     def put(self, request, pk):
-        persona = get_object_or_404(Persona, pk=pk)
+        autor = get_object_or_404(Autor, pk=pk)
+
+        serializer = AutorSerializer(autor, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {
+                'success': True,
+                'detail': 'Autor actualizada correctamente.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+    
+# Eliminar Autor
+class EliminarAutor(generics.DestroyAPIView):
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
+
+    def delete(self, request, pk):
+        autor = get_object_or_404(Autor, pk=pk)
+        autor.delete()
+        return Response(
+            {
+                'success': True,
+                'detail': 'Autor eliminado correctamente.'
+            },
+            status=status.HTTP_204_NO_CONTENT
+        )
+
+# ====================== VISTAS DE EDITORIAL ======================
+# Crear editorial
+class CrearEditorial(generics.CreateAPIView):
+    queryset = Editorial.objects.all()
+    serializer_class = EditorialSerializer
+
+    def post(self, request):
+        serializer = EditorialSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {
+                'success': True,
+                'detail': 'Editorial creado correctamente.',
+                'data': serializer.data
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+# Actualizar editorial
+class ActualizarEditorial(generics.UpdateAPIView):
+    queryset = Editorial.objects.all()
+    serializer_class = EditorialSerializer
+
+    def put(self, request, pk):
+        editorial = get_object_or_404(Editorial, pk=pk)
+
+        serializer = EditorialSerializer(editorial, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {
+                'success': True,
+                'detail': 'Editorial actualizado correctamente.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+# Eliminar editorial
+class EliminarEditorial(generics.DestroyAPIView):
+    queryset = Editorial.objects.all()
+    serializer_class = EditorialSerializer
+
+    def delete(self, request, pk):
+        editorial = get_object_or_404(Editorial, pk=pk)
+        editorial.delete()
+        return Response(
+            {
+                'success': True,
+                'detail': 'Editorial eliminado correctamente.'
+            },
+            status=status.HTTP_204_NO_CONTENT
+        )
+
+
+# ====================== VISTAS DE LIBROS ======================
+# Crear libros
+class CrearLibro(generics.CreateAPIView):
+    queryset = Libro.objects.all()
+    serializer_class = LibroSerializer
+
+    def post(self, request):
+        serializer = LibroSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {
+                'success': True,
+                'detail': 'Libro creado correctamente.',
+                'data': serializer.data
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+# Actualizar libros
+class ActualizarLibro(generics.UpdateAPIView):
+    queryset = Libro.objects.all()
+    serializer_class = LibroSerializer
+
+    def put(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+
+        serializer = LibroSerializer(libro, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {
+                'success': True,
+                'detail': 'Libro actualizado correctamente.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+# Eliminar libros    
+class EliminarLibro(generics.DestroyAPIView):
+    queryset = Libro.objects.all()
+    serializer_class = LibroSerializer
+
+    def delete(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        libro.delete()
+        return Response(
+            {
+                'success': True,
+                'detail': 'Libro eliminado correctamente.'
+            },
+            status=status.HTTP_204_NO_CONTENT
+        )
+
+# ====================== VISTAS DE MIEMBRRO ======================
+# Crear miembros
+class CrearMiembro(generics.CreateAPIView):
+    queryset = Miembro.objects.all()
+    serializer_class = MiembroSerializer
+
+    def post(self, request):
+        serializer = MiembroSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {
+                'success': True,
+                'detail': 'Miembro creado correctamente.',
+                'data': serializer.data
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+# Actualizar miembros
+class ActualizarMiembro(generics.UpdateAPIView):
+    queryset = Miembro.objects.all()
+    serializer_class = MiembroSerializer
+
+    def put(self, request, pk):
+        miembro = get_object_or_404(Miembro, pk=pk)
         email = request.data.get('email', None)
 
         # Verificar si el email ha cambiado
-        if email and email != persona.email:
-            # Verificar si ya existe otra persona con el mismo email
-            if Persona.objects.filter(email=email).exclude(pk=pk).exists():
+        if email and email != miembro.email:
+            # Verificar si ya existe otro miembro con el mismo email
+            if Miembro.objects.filter(email=email).exclude(pk=pk).exists():
                 return Response(
-                    {'email': ['Persona con este email ya existe.']},
+                    {'email': ['Miembro con este email ya existe.']},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-        serializer = PersonaSerializer(persona, data=request.data)
+        serializer = MiembroSerializer(miembro, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(
             {
                 'success': True,
-                'detail': 'Persona actualizada correctamente.',
+                'detail': 'Miembro actualizado correctamente.',
                 'data': serializer.data
             },
             status=status.HTTP_200_OK
         )
-    
-# Eliminar persona
-class EliminarPersona(generics.DestroyAPIView):
-    queryset = Persona.objects.all()
-    serializer_class = PersonaSerializer
+
+# Eliminar miembros
+class EliminarMiembro(generics.DestroyAPIView):
+    queryset = Miembro.objects.all()
+    serializer_class = MiembroSerializer
 
     def delete(self, request, pk):
-        persona = get_object_or_404(Persona, pk=pk)
-        persona.delete()
+        miembro = get_object_or_404(Miembro, pk=pk)
+        miembro.delete()
         return Response(
             {
                 'success': True,
-                'detail': 'Persona eliminada correctamente.'
+                'detail': 'Miembro eliminado correctamente.'
             },
             status=status.HTTP_204_NO_CONTENT
         )
 
+# ====================== VISTAS DE PRESTAMO ======================
+# Crear prestamos
+class CrearPrestamo(generics.CreateAPIView):
+    queryset = Prestamo.objects.all()
+    serializer_class = PrestamoSerializer
 
-
-# Buscar persona por documento
-class PersonaByDocumento(generics.ListAPIView):
-    serializer_class = PersonaSerializer
-
-    def get(self, request, documento):
-        persona = Persona.objects.filter(documento=documento).first()
-        if not persona:
-            raise NotFound('No se encontró una persona con ese documento.')
-
-        serializer = PersonaSerializer(persona)
+    def post(self, request):
+        serializer = PrestamoSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(
             {
                 'success': True,
-                'detail': 'Persona encontrada.',
+                'detail': 'Prestamo creado correctamente.',
                 'data': serializer.data
             },
-            status=status.HTTP_200_OK
+            status=status.HTTP_201_CREATED
         )
 
-
-# ====================== VISTAS DE TAREA ======================
-# Crear tareas
-class CrearTarea(generics.CreateAPIView):
-    queryset = Tarea.objects.all()
-    serializer_class = TareaSerializer
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-
-        if serializer.is_valid():
-            tarea = serializer.save()
-            return Response(
-                {
-                    'success': True,
-                    'detail': 'Tarea creada correctamente.',
-                    'data': TareaSerializer(tarea).data
-                },
-                status=status.HTTP_201_CREATED
-            )
-        else:
-            return Response(
-                {
-                    'success': False,
-                    'detail': 'Error al crear la tarea.',
-                    'errors': serializer.errors
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-    
-# Actualizar tarea
-
-class ActualizarTarea(generics.UpdateAPIView):
-    queryset = Tarea.objects.all()
-    serializer_class = TareaSerializer
+# Actualizar prestamos
+class ActualizarPrestamo(generics.UpdateAPIView):
+    queryset = Prestamo.objects.all()
+    serializer_class = PrestamoSerializer
 
     def put(self, request, pk):
-        tarea = get_object_or_404(Tarea, pk=pk)
-        titulo = request.data.get('titulo', None)
-        descripcion = request.data.get('descripcion', None)
-        fecha_limite = request.data.get('fecha_limite', None)
+        prestamo = get_object_or_404(Prestamo, pk=pk)
 
-        # Verificar si el titulo ha cambiado
-        if titulo and titulo != tarea.titulo:
-            # Verificar si ya existe otra tarea con el mismo titulo
-            if Tarea.objects.filter(titulo=titulo).exclude(pk=pk).exists():
-                return Response(
-                    {'titulo': ['Tarea con este titulo ya existe.']},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-        serializer = TareaSerializer(tarea, data=request.data)
+        serializer = PrestamoSerializer(prestamo, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(
             {
                 'success': True,
-                'detail': 'Tarea actualizada correctamente.',
+                'detail': 'Prestamo actualizado correctamente.',
                 'data': serializer.data
             },
             status=status.HTTP_200_OK
-        )       
+        )
 
-# Eliminar tarea
-class EliminarTarea(generics.DestroyAPIView):
-    queryset = Tarea.objects.all()
-    serializer_class = TareaSerializer
+# Eliminar prestamos
+class EliminarPrestamo(generics.DestroyAPIView):
+    queryset = Prestamo.objects.all()
+    serializer_class = PrestamoSerializer
 
     def delete(self, request, pk):
-        tarea = get_object_or_404(Tarea, pk=pk)
-        tarea.delete()
+        prestamo = get_object_or_404(Prestamo, pk=pk)
+        prestamo.delete()
         return Response(
             {
                 'success': True,
-                'detail': 'Tarea eliminada correctamente.'
+                'detail': 'Prestamo eliminado correctamente.'
             },
             status=status.HTTP_204_NO_CONTENT
-        )   
-# Listar tareas
-class TareaList(generics.ListCreateAPIView):
-    queryset = Tarea.objects.all()
-    serializer_class = TareaSerializer
-
-    def get(self, request):
-        tareas = Tarea.objects.all()
-        serializer = TareaSerializer(tareas, many=True)
-        if not tareas:
-            raise NotFound('No se encontraron tareas.')
-        return Response(
-            {
-                'success': True,
-                'detail': 'Listado de tareas.',
-                'data': serializer.data
-            },
-            status=status.HTTP_200_OK
-        )
-
-#actualizar tarea
-
-
-
-# Buscar tareas por fecha específica
-class TareaByFecha(generics.ListAPIView):
-    serializer_class = TareaSerializer
-
-    def get(self, request, fecha):
-        try:
-            fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
-        except ValueError:
-            return Response(
-                {
-                    'success': False,
-                    'detail': 'Formato de fecha inválido. Use YYYY-MM-DD.',
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        tareas = Tarea.objects.filter(fecha_limite=fecha_obj)
-        if not tareas.exists():
-            raise NotFound('No se encontraron tareas para esa fecha.')
-
-        serializer = TareaSerializer(tareas, many=True)
-        return Response(
-            {
-                'success': True,
-                'detail': f'Tareas encontradas para la fecha {fecha}.',
-                'data': serializer.data
-            },
-            status=status.HTTP_200_OK
-        )
-
-
-# Buscar tareas por rango de fechas
-class TareaByRangoFechas(generics.ListAPIView):
-    serializer_class = TareaSerializer
-
-    def get(self, request, fecha_inicio, fecha_fin):
-        try:
-            fecha_inicio_obj = datetime.strptime(fecha_inicio, '%Y-%m-%d').date()
-            fecha_fin_obj = datetime.strptime(fecha_fin, '%Y-%m-%d').date()
-        except ValueError:
-            return Response(
-                {
-                    'success': False,
-                    'detail': 'Formato de fecha inválido. Use YYYY-MM-DD.',
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if fecha_inicio_obj > fecha_fin_obj:
-            return Response(
-                {
-                    'success': False,
-                    'detail': 'La fecha de inicio no puede ser mayor que la fecha de fin.',
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        tareas = Tarea.objects.filter(
-            fecha_limite__gte=fecha_inicio_obj,
-            fecha_limite__lte=fecha_fin_obj
-            )
-
-        
-        if not tareas.exists():
-            raise NotFound('No se encontraron tareas en ese rango de fechas.')
-
-        serializer = TareaSerializer(tareas, many=True)
-        return Response(
-            {
-                'success': True,
-                'detail': f'Tareas encontradas entre {fecha_inicio} y {fecha_fin}.',
-                'data': serializer.data
-            },
-            status=status.HTTP_200_OK
-        )
-
-
-# Buscar tareas por persona
-class TareaByPersona(generics.ListAPIView):
-    serializer_class = TareaSerializer
-
-    def get(self, request, persona_id):
-        # Verificar que la persona existe
-        persona = get_object_or_404(Persona, pk=persona_id)
-        
-        tareas = Tarea.objects.filter(persona=persona)
-        if not tareas.exists():
-            raise NotFound('No se encontraron tareas para esta persona.')
-
-        serializer = TareaSerializer(tareas, many=True)
-        return Response(
-            {
-                'success': True,
-                'detail': f'Tareas encontradas para {persona.nombre} {persona.apellido}.',
-                'data': serializer.data
-            },
-            status=status.HTTP_200_OK
         )
