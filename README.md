@@ -23,7 +23,7 @@ Para más ejemplos sobre el funcionamiento y explicación de la API, se puede re
 ## Instalación/Prueba
 Para la instalación o prueba de este proyecto, se debe crear un servidor en PostgreSQL (pgAdmin4), con el nombre *"API_Parcial"*, y dentro del servidor crear una base de datos llamada *"gestion_biblioteca"*.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/QbZ00Euk4Ts?si=3Ii0FCAO9TKQooJS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+![Video Explicación - Creación de la base de datos en Postgre](./img/Tutorial.gif)
 
 Una vez se ha hecho esto se pueden ejecutar los siguientes comandos en una terminal del IDE de preferencia, dentro de cualquier carpeta:
 ```
