@@ -1,6 +1,9 @@
 from django.urls import path
 from .views import (
-    AutorList, CrearAutor, ActualizarAutor, EliminarAutor, EditorialList, CrearEditorial, ActualizarEditorial, EliminarEditorial, LibroList, CrearLibro, ActualizarLibro, EliminarLibro, MiembroList, CrearMiembro, ActualizarMiembro, EliminarMiembro, PrestamoList, CrearPrestamo, ActualizarPrestamo, EliminarPrestamo
+    AutorList, CrearAutor, ActualizarAutor, EliminarAutor, EditorialList, CrearEditorial, ActualizarEditorial, 
+    EliminarEditorial, LibroList, CrearLibro, ActualizarLibro, EliminarLibro, MiembroList, CrearMiembro, ActualizarMiembro, 
+    EliminarMiembro, PrestamoList, CrearPrestamo, ActualizarPrestamo, EliminarPrestamo, LibroByAutor, LibroByEditorial, PrestamoByFecha, PrestamoByMiembro,
+    LibroByNoDevueltoRango
 )
 
 urlpatterns = [
@@ -24,5 +27,11 @@ urlpatterns = [
     path('prestamos/crear/', CrearPrestamo.as_view(), name='prestamos-crear'),
     path('prestamos/actualizar/<int:pk>', ActualizarPrestamo.as_view(), name='prestamos-actualizar'),
     path('prestamos/eliminar/<int:pk>', EliminarPrestamo.as_view(), name='prestamos-eliminar'),
+    #Filtros
+    path('libros/buscar-por-autor/<int:autor_id>/', LibroByAutor.as_view(), name='libros-buscar-por-autor'),
+    path('libros/buscar-por-editorial/<int:editorial_id>/', LibroByEditorial.as_view(), name='libros-buscar-por-editorial'),
+    path('prestamos/buscar-por-fecha/<str:fecha>/', PrestamoByFecha.as_view(), name='prestamos-buscar-por-fecha'),
+    path('prestamos/buscar-por-miembro/<int:miembro_id>/', PrestamoByMiembro.as_view(), name='prestamos-buscar-por-miembro'),
+    path('libros/buscar-no-devueltos/<str:fecha_inicio>/<str:fecha_fin>/', LibroByNoDevueltoRango.as_view(), name='libros-buscar-no-devueltos'),
 ]
 

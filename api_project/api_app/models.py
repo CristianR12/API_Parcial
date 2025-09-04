@@ -61,9 +61,9 @@ class Miembro(models.Model):
     apellido = models.CharField(max_length=100, db_column='T004Apellido')
     email = models.EmailField(unique=True,db_column='T004Email')
     fecha_de_membresia = models.DateField(db_column='T004FechaDeMembresia')
+
     def __str__(self):
         return  f"{self.nombre} {self.apellido}"
-
 
     class Meta:
         db_table = 'T004Miembro'
