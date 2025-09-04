@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 Una vez se ha clonado el repositorio y se han instalado los requerimientos, se debe abrir el archivo *API_Parcial/api_project/api_project/settings.py*. En este archivo, se debe realizar una modificación en la línea 83, ya que en dentro de las comilllas que estan despues de los : se debe ingresar la contraseña que se estableció para PostgreSQL y el servidor.
 
-![Línea en Setting.py](./img/lineaSetting.png)
+![Línea en Setting.py](./img/lineaSettings.png)
 
 Una vez se haya modificado la contraseña y se haya guardado el cambio, se puede ejecutar en la terminal los siguietnes comandos:
 
