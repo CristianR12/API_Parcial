@@ -389,3 +389,147 @@ class EliminarPrestamo(generics.DestroyAPIView):
             },
             status=status.HTTP_204_NO_CONTENT
         )
+    
+#Filtrdos
+
+#Filtro buscar libros por autor
+class LibroByAutor(generics.ListAPIView):
+    serializer_class = LibroSerializer
+
+    def get(self, request, autor_id):
+        # Verificar que la persona existe
+        autor = get_object_or_404(Autor, pk=autor_id)
+        
+        libros = Libro.objects.filter(autor=autor)
+        if not libros.exists():
+            raise NotFound('No se encontraron libros para este autor.')
+
+        serializer = LibroSerializer(libros, many=True)
+        return Response(
+            {
+                'success': True,
+                'detail': f'Libros encontrados para {autor.nombre} {autor.apellido}.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+# Filtro buscar libros por editorial
+class LibroByEditorial(generics.ListAPIView):
+    serializer_class = LibroSerializer
+
+    def get(self, request, editorial_id):
+        # Verificar que la persona existe
+        editorial = get_object_or_404(Editorial, pk=editorial_id)
+        
+        libros = Libro.objects.filter(editorial=editorial)
+        if not libros.exists():
+            raise NotFound('No se encontraron libros para este editorial.')
+
+        serializer = LibroSerializer(libros, many=True)
+        return Response(
+            {
+                'success': True,
+                'detail': f'Libros encontrados para {editorial.nombre}.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+# Consultar préstamos por fecha de préstamo o por miembro.
+class PrestamoByFecha(generics.ListAPIView):
+    serializer_class = PrestamoSerializer
+
+    def get(self, request, fecha):
+        try:
+            fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
+        except ValueError:
+            return Response(
+                {
+                    'success': False,
+                    'detail': 'Formato de fecha inválido. Use YYYY-MM-DD.',
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        prestamos = Prestamo.objects.filter(fecha_del_prestamo=fecha_obj)
+        if not prestamos.exists():
+            raise NotFound('No se encontraron prestamos para esa fecha.')
+
+        serializer = PrestamoSerializer(prestamos, many=True)
+        return Response(
+            {
+                'success': True,
+                'detail': f'Prestamos encontrados para la fecha {fecha}.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+class PrestamoByMiembro(generics.ListAPIView):
+    serializer_class = PrestamoSerializer
+
+    def get(self, request, miembro_id):
+        # Verificar que el miembro existe
+        miembro = get_object_or_404(Miembro, pk=miembro_id)
+        
+        prestamos = Prestamo.objects.filter(miembro=miembro)
+        if not prestamos.exists():
+            raise NotFound('No se encontraron prestamos para este miembro.')
+
+        serializer = PrestamoSerializer(prestamos, many=True)
+        return Response(
+            {
+                'success': True,
+                'detail': f'Prestamos encontrados para {miembro.nombre} {miembro.apellido}.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )       
+    
+
+# buscar libros que no están devueltos en base a fecha de devolución, mediante un rango de fechas
+#no se dan por la fecha exacta de devolución, sino por el rango de fechas que se quiere buscar
+class LibroByNoDevueltoRango(generics.ListAPIView):
+    serializer_class = LibroSerializer
+
+    def get(self, request, fecha_inicio, fecha_fin):
+        try:
+            fecha_inicio_obj = datetime.strptime(fecha_inicio, '%Y-%m-%d').date()
+            fecha_fin_obj = datetime.strptime(fecha_fin, '%Y-%m-%d').date()
+        except ValueError:
+            return Response(
+                {
+                    'success': False,
+                    'detail': 'Formato de fecha inválido. Use YYYY-MM-DD.',
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if fecha_inicio_obj > fecha_fin_obj:
+            return Response(
+                {
+                    'success': False,
+                    'detail': 'La fecha de inicio no puede ser mayor que la fecha de fin.',
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        libros = Libro.objects.filter(
+            prestamo__fecha_del_prestamo__gte=fecha_inicio_obj,
+            prestamo__fecha_del_prestamo__lte=fecha_fin_obj
+            )
+
+        if not libros.exists():
+            raise NotFound('No se encontraron libros en ese rango de fechas.')
+
+        serializer = LibroSerializer(libros, many=True)
+        return Response(
+            {
+                'success': True,
+                'detail': f'Libros encontrados entre {fecha_inicio} y {fecha_fin}.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
