@@ -84,6 +84,25 @@ class EliminarAutor(generics.DestroyAPIView):
         )
 
 # ====================== VISTAS DE EDITORIAL ======================
+# Listar editoriales
+class EditorialList(generics.ListCreateAPIView):
+    queryset = Editorial.objects.all()
+    serializer_class = EditorialSerializer
+
+    def get(self, request):
+        editoriales = Editorial.objects.all()
+        serializer = EditorialSerializer(editoriales, many=True)
+        if not editoriales:
+            raise NotFound('No se encontraron editoriales.')
+        return Response(
+            {
+                'success': True,
+                'detail': 'Listado de editoriales.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
 # Crear editorial
 class CrearEditorial(generics.CreateAPIView):
     queryset = Editorial.objects.all()
@@ -140,6 +159,25 @@ class EliminarEditorial(generics.DestroyAPIView):
 
 
 # ====================== VISTAS DE LIBROS ======================
+# Listar libros
+class LibroList(generics.ListCreateAPIView):
+    queryset = Libro.objects.all()
+    serializer_class = LibroSerializer
+
+    def get(self, request):
+        libros = Libro.objects.all()
+        serializer = LibroSerializer(libros, many=True)
+        if not libros:
+            raise NotFound('No se encontraron libros.')
+        return Response(
+            {
+                'success': True,
+                'detail': 'Listado de libros.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
 # Crear libros
 class CrearLibro(generics.CreateAPIView):
     queryset = Libro.objects.all()
@@ -195,6 +233,25 @@ class EliminarLibro(generics.DestroyAPIView):
         )
 
 # ====================== VISTAS DE MIEMBRRO ======================
+# Listar miembros
+class MiembroList(generics.ListCreateAPIView):
+    queryset = Miembro.objects.all()
+    serializer_class = MiembroSerializer
+
+    def get(self, request):
+        miembros = Miembro.objects.all()
+        serializer = MiembroSerializer(miembros, many=True)
+        if not miembros:
+            raise NotFound('No se encontraron miembros.')
+        return Response(
+            {
+                'success': True,
+                'detail': 'Listado de miembros.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
 # Crear miembros
 class CrearMiembro(generics.CreateAPIView):
     queryset = Miembro.objects.all()
@@ -260,6 +317,25 @@ class EliminarMiembro(generics.DestroyAPIView):
         )
 
 # ====================== VISTAS DE PRESTAMO ======================
+# Listar prestamos
+class PrestamoList(generics.ListCreateAPIView):
+    queryset = Prestamo.objects.all()
+    serializer_class = PrestamoSerializer
+
+    def get(self, request):
+        prestamos = Prestamo.objects.all()
+        serializer = PrestamoSerializer(prestamos, many=True)
+        if not prestamos:
+            raise NotFound('No se encontraron prestamos.')
+        return Response(
+            {
+                'success': True,
+                'detail': 'Listado de prestamos.',
+                'data': serializer.data
+            },
+            status=status.HTTP_200_OK
+        )   
+
 # Crear prestamos
 class CrearPrestamo(generics.CreateAPIView):
     queryset = Prestamo.objects.all()
