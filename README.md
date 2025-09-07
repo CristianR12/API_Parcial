@@ -18,7 +18,7 @@ La aplicación esta desarrollada en Django REST Framework, a partir de una base 
 Se utilizan serializers para transformar los datos a modelos JSON y en cada endpoint se manejan errores y excepciones en este formato también.
 
 Para más ejemplos sobre el funcionamiento y explicación de la API, se puede revisar la documentación realizada en Postman:
-* [Enlace a la página de documentación](https://documenter.getpostman.com/view/43047808/2sB3HjM1qH)
+* [Enlace a la página de documentación](https://documenter.getpostman.com/view/43047808/2sB3Hkr1iK)
 
 ## Instalación/Prueba
 Para la instalación o prueba de este proyecto, se debe crear un servidor en PostgreSQL (pgAdmin4), con el nombre *"API_Parcial"*, y dentro del servidor crear una base de datos llamada *"gestion_biblioteca"*.
