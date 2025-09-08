@@ -45,7 +45,6 @@ Una vez se haya modificado la contraseña y se haya guardado el cambio, se puede
 cd api_project
 python manage.py makemigrations api_app
 python manage.py migrate
-cd api_app
 py manage.py runserver
 ```
 
